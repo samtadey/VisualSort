@@ -1,0 +1,53 @@
+body {
+    margin: 0;
+    background: #222;
+}
+
+header {
+    background: rgb(149, 193, 252)
+}
+
+header::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.center {
+    text-align: center;
+}
+
+#b_container {
+    width: 1000px;
+    height: 500px;
+    background: whitesmoke;
+    display: inline-block;
+}
+
+.logo {
+    float: left;
+    height: 50px;
+    padding: 5px;
+}
+
+nav {
+    float: right;
+}
+
+nav ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+nav li {
+    display: inline-block;
+    margin-left: 70px;
+}
+
+.item {
+    width: 3px;
+    margin-left: 1px;
+    background: #444;
+    display: inline-block;
+}
