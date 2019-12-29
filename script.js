@@ -61,18 +61,7 @@ function getIds(items) {
     return vals;
 }
 
-// function colourCompared(one, two) {
-//     document.getElementById(one.toString()).style.background = "green";
-//     document.getElementById(two.toString()).style.background = "green";
-// }
-
-// function undoColour(one, two) {
-//     document.getElementById(one.toString()).style.background = "#444";
-//     document.getElementById(two.toString()).style.background = "#444";
-// }
-
 function handlebubbleSort() {
-    let list = document.getElementById("b_container");
     let items = document.getElementsByClassName("item");
     let ids = getIds(items);
     let ids_unsorted = getIds(items);
@@ -96,6 +85,95 @@ function handlebubbleSort() {
     console.log(ids_unsorted)
     console.log(ids)
     console.log(animations);
+    animate(ids_unsorted, animations);
+}
+
+function partition(arr, low, high) 
+{ 
+    let animations = [];
+    let pivot = arr[high];  
+    let i = (low-1); // index of smaller element 
+    for (let j=low; j<high; j++) 
+    { 
+        // If current element is smaller than the pivot 
+        if (arr[j] < pivot) 
+        { 
+            i++; 
+            animations.push({one: i, two: j});
+            // swap arr[i] and arr[j] 
+            let temp = arr[i];
+            arr[i] = arr[j]; 
+            arr[j] = temp; 
+        } 
+    } 
+    // swap arr[i+1] and arr[high] (or pivot)
+    animations.push({one: i+1, two: high}); 
+    let temp = arr[i+1];
+    arr[i+1] = arr[high]; 
+    arr[high] = temp; 
+
+    return {pi: i+1, animations: animations}; 
+} 
+
+function quickSortIterative(arr, l, h) 
+{ 
+    //Create an auxiliary stack 
+    //let stack = new int[h - l + 1];
+    let stack = [];
+    for (let i = 0; i < h - l + 1; i++)
+        stack.push(0);
+
+    // initialize top of stack 
+    let top = -1; 
+
+    // push initial values of l and h to stack 
+    stack[++top] = l; 
+    stack[++top] = h; 
+
+    let animate = [];
+    // Keep popping from stack while is not empty 
+    while (top >= 0) { 
+        // Pop h and l 
+        h = stack[top--]; 
+        l = stack[top--]; 
+
+        // Set pivot element at its correct position 
+        // in sorted array 
+        let part = partition(arr, l, h);
+        let p = part.pi; 
+        let anim = part.animations;
+        
+        for (let i = 0; i < anim.length; i++)
+            animate.push({one: anim[i].one, two: anim[i].two});
+
+        // If there are elements on left side of pivot, 
+        // then push left side to stack 
+        if (p - 1 > l) { 
+            stack[++top] = l; 
+            stack[++top] = p - 1; 
+        } 
+
+        // If there are elements on right side of pivot, 
+        // then push right side to stack 
+        if (p + 1 < h) { 
+            stack[++top] = p + 1; 
+            stack[++top] = h; 
+        } 
+    } 
+
+    return animate;
+} 
+
+function handleQuickSort() 
+{
+    let items = document.getElementsByClassName("item");
+    let ids = getIds(items);
+    let ids_unsorted = [...ids];
+    let n = ids.length;
+    console.log(ids);
+    let animations = quickSortIterative(ids, 0, n - 1);
+    console.log(animations)
+    console.log(ids);
     animate(ids_unsorted, animations);
 }
 
