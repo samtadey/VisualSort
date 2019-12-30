@@ -2,6 +2,7 @@
 <head>
     <link rel="stylesheet" type="text/css" href="./style.css">
     <script src="script.js" defer></script>
+    <script src="sort.js" defer></script>
     <title>VisualSort</title> 
 </head>
 <body>
@@ -12,10 +13,11 @@
             <nav>
                 <ul>
                     <li><p>Step: 1</p></li>
-                    <li><button onclick="handleGenerate(250)">Generate</button></li>
+                    <li><button onclick="handleGenerate(100)">Generate</button></li>
                     <li><p>Step: 2</p></li>
-                    <li><button onclick="handlebubbleSort()">Bubble Sort</button></li>
-                    <li><a href="#">Merge Sort</a></li>
+                    <li><button onclick="handleBubbleSort()">Bubble Sort</button></li>
+                    <li><button onclick="handleMergeSort()">Merge Sort</button></li>
+                    <li><button onclick="handleHeapSort()">Heap Sort</button></li>
                     <li><button onclick="handleQuickSort()">Quick Sort</button></li>
                 </ul>
             </nav>
