@@ -9,14 +9,28 @@
 
     <header>
         <div class="h_container"> 
-            <img src="logo2.png" alt="logo" class="logo">
+            <img src="logo.png" alt="logo" class="logo">
             <nav>
                 <ul>
                     <li><p>Step: 1</p></li>
-                    <li><button onclick="handleGenerate(100)">Generate</button></li>
+                    <li><button onclick="handleGenerate()">Generate</button></li>
+                    <li>
+                        <label class="container">SMALL
+                            <input id="sml" type="radio" name="radio">
+                            <span class="checkmark"></span>
+                          </label>
+                          <label class="container">MEDIUM
+                            <input id="med" type="radio" name="radio" checked>
+                            <span class="checkmark"></span>
+                          </label>
+                          <label class="container">LARGE
+                            <input id="lrg" type="radio" name="radio">
+                            <span class="checkmark"></span>
+                          </label>
+                    </li>
                     <li><p>Step: 2</p></li>
                     <li><button onclick="handleBubbleSort()">Bubble Sort</button></li>
-                    <li><button onclick="handleMergeSort()">Merge Sort</button></li>
+                    <li><button onclick="handlePancakeSort()">Pancake Sort</button></li>
                     <li><button onclick="handleHeapSort()">Heap Sort</button></li>
                     <li><button onclick="handleQuickSort()">Quick Sort</button></li>
                 </ul>

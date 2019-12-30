@@ -38,7 +38,7 @@ function generateItems(array) {
     list.innerHTML = "";
 
     width = getWidth(1000, array.length); //size of width == 1000
-    height_mod = getHeightMod(500, array.length);
+    height_mod = getHeightMod(550, array.length);
     for(let i = 0; i < array.length; i++)
     {
         let item = document.createElement("div");
@@ -50,8 +50,21 @@ function generateItems(array) {
     }
 }
 
-function handleGenerate(number) {
-    generateItems(generateArray(number));
+function getSize() {  
+    if(document.getElementById('sml').checked) { 
+        return 50;
+    } 
+    else if(document.getElementById('med').checked) { 
+        return 200;
+    } 
+    else if(document.getElementById('lrg').checked) { 
+        return 400;   
+    } 
+    return 150;
+} 
+
+function handleGenerate() {
+    generateItems(generateArray(getSize()));
 }
 
 function getIds(items) {
@@ -79,6 +92,20 @@ function handleQuickSort()
     let animations = quickSortIterative(ids, 0, n - 1);
 
     animate(ids_unsorted, animations);
+}
+
+function handlePancakeSort()
+{
+    let items = document.getElementsByClassName("item");
+    let ids = getIds(items);
+    let ids_unsorted = [...ids];
+    let animations = pancakeSort(ids);
+
+    console.log(ids_unsorted);
+    console.log(ids);
+    console.log(animations);
+
+    animate(ids_unsorted, animations);    
 }
 
 function handleMergeSort()
@@ -111,22 +138,22 @@ function handleHeapSort()
     animate(ids_unsorted, animations);    
 }
 
-function animate_by_arrays(arr)
-{
-    let count = 0;
-    let id = setInterval(frame, 100);
+// function animate_by_arrays(arr)
+// {
+//     let count = 0;
+//     let id = setInterval(frame, 100);
 
-    function frame() {
-        if (count < arr.length) 
-        {
-            generateItems(arr[count++]);
-        }
-        else
-        {
-            clearInterval(id);
-        }
-    }
-}
+//     function frame() {
+//         if (count < arr.length) 
+//         {
+//             generateItems(arr[count++]);
+//         }
+//         else
+//         {
+//             clearInterval(id);
+//         }
+//     }
+// }
 
 function animate(ids, animations) {
     let count = 0;

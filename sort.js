@@ -102,6 +102,110 @@ function quickSortIterative(arr, l, h)
     return animate;
 } 
 
+/* function to sort arr using shellSort */
+function shellSort(arr) 
+{ 
+    let n = arr.length; 
+    let animate = [];
+    // Start with a big gap, then reduce the gap 
+    for (let gap = n/2; gap > 0; gap /= 2) 
+    { 
+        // Do a gapped insertion sort for this gap size. 
+        // The first gap elements a[0..gap-1] are already 
+        // in gapped order keep adding one more element 
+        // until the entire array is gap sorted 
+        for (let i = gap; i < n; i += 1) 
+        { 
+            // add a[i] to the elements that have been gap 
+            // sorted save a[i] in temp and make a hole at 
+            // position i 
+            let temp = arr[i]; 
+
+            // shift earlier gap-sorted elements up until 
+            // the correct location for a[i] is found 
+            let j;
+            for (j = i; j >= gap && arr[j - gap] > temp; j -= gap) 
+            {
+                //animate.push({one: j - gap, two: j})
+                arr[j] = arr[j - gap]; 
+            }
+            //animate.push({one: i, two: j});
+            // put temp (the original a[i]) in its correct 
+            // location 
+            arr[j] = temp; 
+        } 
+    } 
+    //return animate; 
+} 
+
+
+function findMax(arr, n) 
+{ 
+    let mi, i; 
+    for (mi = 0, i = 0; i < n; ++i) 
+        if (arr[i] > arr[mi]) 
+                mi = i; 
+    return mi; 
+} 
+
+function flip(arr, i) 
+{ 
+    let animate = [];
+    let temp, start = 0; 
+    while (start < i) 
+    { 
+        animate.push({one: start, two: i});
+        temp = arr[start]; 
+        arr[start++] = arr[i]; 
+        arr[i--] = temp; 
+    } 
+    return animate;
+} 
+
+// The main function that  
+// sorts given array using  
+// flip operations 
+function pancakeSort(arr) 
+{ 
+    let n = arr.length;
+    let animate = [];
+    // Start from the complete 
+    // array and one by one  
+    // reduce current size  
+    // by one 
+    for (let curr_size = n; curr_size > 1; --curr_size) 
+    { 
+        // Find index of the  
+        // maximum element in  
+        // arr[0..curr_size-1] 
+        let mi = findMax(arr, curr_size); 
+        let to_add = [];
+  
+        // Move the maximum 
+        // element to end of  
+        // current array if 
+        // it's not already 
+        // at the end 
+        if (mi != curr_size-1) 
+        { 
+            // To move at the end, 
+            // first move maximum  
+            // number to beginning  
+            to_add = flip(arr, mi); 
+            for (let i = 0; i< to_add.length; i++)
+                animate.push({one: to_add[i].one, two: to_add[i].two});
+  
+            // Now move the maximum  
+            // number to end by  
+            // reversing current array 
+            to_add = flip(arr, curr_size-1); 
+            for (let i = 0; i< to_add.length; i++)
+                animate.push({one: to_add[i].one, two: to_add[i].two});
+        } 
+    } 
+    return animate;
+} 
+
 
 
 // function mergeSort(arr, l, r, animate) 
@@ -128,114 +232,114 @@ function quickSortIterative(arr, l, h)
 Start of Merge Sort
 */
 
-function mergeSort(arr, n) 
-{ 
+// function mergeSort(arr, n) 
+// { 
         
-    // For current size of subarrays to 
-    // be merged cur_size varies from  
-    // 1 to n/2 
-    let cur_size;  
+//     // For current size of subarrays to 
+//     // be merged cur_size varies from  
+//     // 1 to n/2 
+//     let cur_size;  
                     
-    // For picking starting index of  
-    // left subarray to be merged 
-    let l; 
-    let animate = []; 
-    let to_add = [];                
+//     // For picking starting index of  
+//     // left subarray to be merged 
+//     let l; 
+//     let animate = []; 
+//     let to_add = [];                
         
-    // Merge subarrays in bottom up  
-    // manner. First merge subarrays  
-    // of size 1 to create sorted  
-    // subarrays of size 2, then merge 
-    // subarrays of size 2 to create  
-    // sorted subarrays of size 4, and 
-    // so on. 
-    for (cur_size = 1; cur_size <= n-1; cur_size = 2*cur_size) 
-    { 
-        // Pick starting point of different 
-        // subarrays of current size 
-        for (l = 0; l < n-1; l += 2*cur_size) 
-        { 
-            // Find ending point of left  
-            // subarray. mid+1 is starting  
-            // point of right 
-            let m = Math.min(l + cur_size - 1, n-1); 
+//     // Merge subarrays in bottom up  
+//     // manner. First merge subarrays  
+//     // of size 1 to create sorted  
+//     // subarrays of size 2, then merge 
+//     // subarrays of size 2 to create  
+//     // sorted subarrays of size 4, and 
+//     // so on. 
+//     for (cur_size = 1; cur_size <= n-1; cur_size = 2*cur_size) 
+//     { 
+//         // Pick starting point of different 
+//         // subarrays of current size 
+//         for (l = 0; l < n-1; l += 2*cur_size) 
+//         { 
+//             // Find ending point of left  
+//             // subarray. mid+1 is starting  
+//             // point of right 
+//             let m = Math.min(l + cur_size - 1, n-1); 
         
-            let r = Math.min(l + 2*cur_size - 1, n-1); 
+//             let r = Math.min(l + 2*cur_size - 1, n-1); 
         
-            // Merge Subarrays arr[l...mid] 
-            // & arr[mid+1...right_end] 
-            to_add = merge(arr, l, m, r);
-            //animate.push(to_add);
-            for (let i = 0; i < to_add.length; i++)
-                animate.push({one: to_add[i].one, two: to_add[i].two}); 
-        } 
-    } 
-    return animate;
-}
+//             // Merge Subarrays arr[l...mid] 
+//             // & arr[mid+1...right_end] 
+//             to_add = merge(arr, l, m, r);
+//             //animate.push(to_add);
+//             for (let i = 0; i < to_add.length; i++)
+//                 animate.push({one: to_add[i].one, two: to_add[i].two}); 
+//         } 
+//     } 
+//     return animate;
+// }
 
 
-/* Function to merge the two halves arr[l..m] and arr[m+1..r] of array arr[] */
-function merge(arr, l, m, r) 
-{ 
-    let i, j, k; 
-    let n1 = m - l + 1; 
-    let n2 =  r - m; 
+// /* Function to merge the two halves arr[l..m] and arr[m+1..r] of array arr[] */
+// function merge(arr, l, m, r) 
+// { 
+//     let i, j, k; 
+//     let n1 = m - l + 1; 
+//     let n2 =  r - m; 
   
-    /* create temp arrays */
-    let L = [];
-    let R = []; 
+//     /* create temp arrays */
+//     let L = [];
+//     let R = []; 
 
-    let animate = [];
+//     let animate = [];
   
-    /* Copy data to temp arrays L[] and R[] */
-    for (i = 0; i < n1; i++) 
-        L.push(arr[l + i]); 
-    for (j = 0; j < n2; j++) 
-        R.push(arr[m + 1 + j]); 
+//     /* Copy data to temp arrays L[] and R[] */
+//     for (i = 0; i < n1; i++) 
+//         L.push(arr[l + i]); 
+//     for (j = 0; j < n2; j++) 
+//         R.push(arr[m + 1 + j]); 
   
-    /* Merge the temp arrays back into arr[l..r]*/
-    i = 0; 
-    j = 0; 
-    k = l; 
-    while (i < n1 && j < n2) 
-    { 
-        if (L[i] <= R[j]) 
-        { 
-            animate.push({one: k, two: l+i});
-            arr[k] = L[i]; 
-            i++; 
-        } 
-        else
-        { 
-            animate.push({one: k, two: m+1+j});
-            arr[k] = R[j]; 
-            j++; 
-        } 
-        k++; 
-    } 
+//     /* Merge the temp arrays back into arr[l..r]*/
+//     i = 0; 
+//     j = 0; 
+//     k = l; 
+//     while (i < n1 && j < n2) 
+//     { 
+//         if (L[i] <= R[j]) 
+//         { 
+//             animate.push({one: k, two: l+i});
+//             arr[k] = L[i]; 
+//             i++; 
+//         } 
+//         else
+//         { 
+//             animate.push({one: k, two: m+1+j});
+//             arr[k] = R[j]; 
+//             j++; 
+//         } 
+//         k++; 
+//     } 
   
-    /* Copy the remaining elements of L[], if there are any */
-    while (i < n1) 
-    { 
-        animate.push({one: k, two: l+i});
-        arr[k] = L[i]; 
-        i++; 
-        k++; 
-    } 
+//     /* Copy the remaining elements of L[], if there are any */
+//     while (i < n1) 
+//     { 
+//         animate.push({one: k, two: l+i});
+//         arr[k] = L[i]; 
+//         i++; 
+//         k++; 
+//     } 
   
-    /* Copy the remaining elements of R[], if there are any */
-    while (j < n2) 
-    { 
-        animate.push({one: k, two: m+1+j});
-        arr[k] = R[j]; 
-        j++; 
-        k++; 
-    } 
-    //console.log(arr);
-    //return snapshot of array -> rerender that
-    //return [...arr];
-    return animate;
-} 
+//     /* Copy the remaining elements of R[], if there are any */
+//     while (j < n2) 
+//     { 
+//         animate.push({one: k, two: m+1+j});
+//         arr[k] = R[j]; 
+//         j++; 
+//         k++; 
+//     } 
+//     //console.log(arr);
+//     //return snapshot of array -> rerender that
+//     //return [...arr];
+//     return animate;
+// } 
 
 /*
 Start of Heap Sort
