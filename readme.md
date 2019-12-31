@@ -2,9 +2,9 @@
 
 VisualSort provides a visual representation of how sorting algorithms function. The 
 algorithms that were implemented are:
-    - Bubble Sort
-    - Pancake Sort
-    - Heap Sort
+    - Bubble Sort<br/>
+    - Pancake Sort<br/>
+    - Heap Sort<br/>
     - Quick Sort
 
 The app can be found at https://samtadey.github.io/VisualSort/
@@ -16,4 +16,7 @@ The app can be found at https://samtadey.github.io/VisualSort/
 2. Select the 'Generate' button to generate the unsorted array.
 
 ### Step: 2
-1. Select the sorting algorithm that you wish to see visualized.
+1. Select button for the sorting algorithm that you wish to see visualized.
+
+### Step: 3
+1. Watch and wait!
