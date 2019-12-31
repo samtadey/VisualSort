@@ -1,3 +1,9 @@
+//
+//Sorting functions would sort the arrays, as well as adding to an animations array wheverer
+//a swap is made. The sorting functions return an array of animations that is used by the
+//animate funciton in script.js to animate the sorting process.
+//
+
 
 /*
 Start of Bubble Sort
@@ -102,42 +108,9 @@ function quickSortIterative(arr, l, h)
     return animate;
 } 
 
-/* function to sort arr using shellSort */
-function shellSort(arr) 
-{ 
-    let n = arr.length; 
-    let animate = [];
-    // Start with a big gap, then reduce the gap 
-    for (let gap = n/2; gap > 0; gap /= 2) 
-    { 
-        // Do a gapped insertion sort for this gap size. 
-        // The first gap elements a[0..gap-1] are already 
-        // in gapped order keep adding one more element 
-        // until the entire array is gap sorted 
-        for (let i = gap; i < n; i += 1) 
-        { 
-            // add a[i] to the elements that have been gap 
-            // sorted save a[i] in temp and make a hole at 
-            // position i 
-            let temp = arr[i]; 
-
-            // shift earlier gap-sorted elements up until 
-            // the correct location for a[i] is found 
-            let j;
-            for (j = i; j >= gap && arr[j - gap] > temp; j -= gap) 
-            {
-                //animate.push({one: j - gap, two: j})
-                arr[j] = arr[j - gap]; 
-            }
-            //animate.push({one: i, two: j});
-            // put temp (the original a[i]) in its correct 
-            // location 
-            arr[j] = temp; 
-        } 
-    } 
-    //return animate; 
-} 
-
+/*
+Start of Pancake sort
+*/
 
 function findMax(arr, n) 
 { 
@@ -206,6 +179,75 @@ function pancakeSort(arr)
     return animate;
 } 
 
+
+/*
+Start of Heap Sort
+*/
+
+function heapSort(arr) 
+{ 
+    let n = arr.length; 
+    let animate = [];
+    let to_add = []
+
+    // Build heap (rearrange array) 
+    for (let i = n / 2 - 1; i >= 0; i--) 
+    {
+        to_add = heapify(arr, n, i, animate); 
+
+        for (let a = 0; a < to_add.length; a++)
+            animate.push({one: to_add[a].one, two: to_add[a].two});
+    }
+
+    // One by one extract an element from heap 
+    for (let i=n-1; i>=0; i--) 
+    { 
+        // Move current root to end
+        animate.push({one: 0, two: i}); 
+        let temp = arr[0]; 
+        arr[0] = arr[i]; 
+        arr[i] = temp; 
+
+        // call max heapify on the reduced heap 
+        to_add = heapify(arr, i, 0, animate);
+        
+        for (let a = 0; a < to_add.length; a++)
+            animate.push({one: to_add[a].one, two: to_add[a].two});
+    }
+    return animate; 
+}
+
+function heapify(arr, n, i, animate) 
+{ 
+    let to_add = [];
+    let more_to_add = [];
+    let largest = i; // Initialize largest as root 
+    let l = 2*i + 1; // left = 2*i + 1 
+    let r = 2*i + 2; // right = 2*i + 2 
+
+    // If left child is larger than root 
+    if (l < n && arr[l] > arr[largest]) 
+        largest = l; 
+
+    // If right child is larger than largest so far 
+    if (r < n && arr[r] > arr[largest]) 
+        largest = r; 
+
+    // If largest is not root 
+    if (largest != i) 
+    { 
+        to_add.push({one: i, two: largest});
+        let swap = arr[i]; 
+        arr[i] = arr[largest]; 
+        arr[largest] = swap; 
+
+        // Recursively heapify the affected sub-tree 
+        let more_to_add = heapify(arr, n, largest, animate); 
+        for (let a = 0; a < more_to_add.length; a++)
+            to_add.push({one: more_to_add[a].one, two: more_to_add[a].two});
+    } 
+    return to_add;
+} 
 
 
 // function mergeSort(arr, l, r, animate) 
@@ -341,71 +383,3 @@ Start of Merge Sort
 //     return animate;
 // } 
 
-/*
-Start of Heap Sort
-*/
-
-function heapSort(arr) 
-{ 
-    let n = arr.length; 
-    let animate = [];
-    let to_add = []
-
-    // Build heap (rearrange array) 
-    for (let i = n / 2 - 1; i >= 0; i--) 
-    {
-        to_add = heapify(arr, n, i, animate); 
-
-        for (let a = 0; a < to_add.length; a++)
-            animate.push({one: to_add[a].one, two: to_add[a].two});
-    }
-
-    // One by one extract an element from heap 
-    for (let i=n-1; i>=0; i--) 
-    { 
-        // Move current root to end
-        animate.push({one: 0, two: i}); 
-        let temp = arr[0]; 
-        arr[0] = arr[i]; 
-        arr[i] = temp; 
-
-        // call max heapify on the reduced heap 
-        to_add = heapify(arr, i, 0, animate);
-        
-        for (let a = 0; a < to_add.length; a++)
-            animate.push({one: to_add[a].one, two: to_add[a].two});
-    }
-    return animate; 
-}
-
-function heapify(arr, n, i, animate) 
-{ 
-    let to_add = [];
-    let more_to_add = [];
-    let largest = i; // Initialize largest as root 
-    let l = 2*i + 1; // left = 2*i + 1 
-    let r = 2*i + 2; // right = 2*i + 2 
-
-    // If left child is larger than root 
-    if (l < n && arr[l] > arr[largest]) 
-        largest = l; 
-
-    // If right child is larger than largest so far 
-    if (r < n && arr[r] > arr[largest]) 
-        largest = r; 
-
-    // If largest is not root 
-    if (largest != i) 
-    { 
-        to_add.push({one: i, two: largest});
-        let swap = arr[i]; 
-        arr[i] = arr[largest]; 
-        arr[largest] = swap; 
-
-        // Recursively heapify the affected sub-tree 
-        let more_to_add = heapify(arr, n, largest, animate); 
-        for (let a = 0; a < more_to_add.length; a++)
-            to_add.push({one: more_to_add[a].one, two: more_to_add[a].two});
-    } 
-    return to_add;
-} 

@@ -8,6 +8,9 @@ function generateArray(num) {
     return shuffle(items);
 }
 
+/*
+Randomly shuffles the array
+*/
 function shuffle(array) {
     let currentIndex = array.length, temporaryValue, randomIndex;
   
@@ -25,14 +28,23 @@ function shuffle(array) {
     return array;
 }
 
+/*
+Determines the width for the sortable items
+*/
 function getWidth(container_size, numitems) {
     return (container_size - numitems - 10) / numitems;
 }
 
+/*
+Determines the height for the sortable items
+*/
 function getHeightMod(container_size, arr_size) {
     return (container_size - 10) / arr_size;
 }
 
+/*
+Generates the html items from an array if integers
+*/
 function generateItems(array) {
     let list = document.getElementById("b_container");
     list.innerHTML = "";
@@ -50,6 +62,9 @@ function generateItems(array) {
     }
 }
 
+/*
+Returns the number of array items to generate
+*/
 function getSize() {  
     if(document.getElementById('sml').checked) { 
         return 50;
@@ -63,10 +78,16 @@ function getSize() {
     return 150;
 } 
 
+/*
+Onclick function to generate the unsorted array
+*/
 function handleGenerate() {
     generateItems(generateArray(getSize()));
 }
 
+/*
+Returns the id's of the array items in integer array form
+*/
 function getIds(items) {
     vals = [];
     for(let i = 0; i < items.length; i++)
@@ -74,87 +95,77 @@ function getIds(items) {
     return vals;
 }
 
-function handleBubbleSort() {
+/*
+Prepares two arrays to pass into the sorting handler functions
+*/
+function prepArrays() 
+{
     let items = document.getElementsByClassName("item");
     let ids = getIds(items);
     let ids_unsorted = [...ids];
-    let animations = bubbleSort(ids);
-
-    animate(ids_unsorted, animations);
+    return {ids: ids, ids_unsorted: ids_unsorted};
 }
 
+/*
+Event handler function to bubble sort the array
+*/
+function handleBubbleSort() {
+    let arrays = prepArrays();
+    let animations = bubbleSort(arrays.ids);
+    animate(arrays.ids_unsorted, animations);
+}
+
+/*
+Event handler function to quick sort the array
+*/
 function handleQuickSort() 
 {
-    let items = document.getElementsByClassName("item");
-    let ids = getIds(items);
-    let ids_unsorted = [...ids];
-    let n = ids.length;
-    let animations = quickSortIterative(ids, 0, n - 1);
-
-    animate(ids_unsorted, animations);
+    let arrays = prepArrays();
+    let n = arrays.ids.length;
+    let animations = quickSortIterative(arrays.ids, 0, n - 1);
+    animate(arrays.ids_unsorted, animations);
 }
 
+/*
+Event handler function to pancake sort the array
+*/
 function handlePancakeSort()
 {
-    let items = document.getElementsByClassName("item");
-    let ids = getIds(items);
-    let ids_unsorted = [...ids];
-    let animations = pancakeSort(ids);
-
-    console.log(ids_unsorted);
-    console.log(ids);
-    console.log(animations);
-
-    animate(ids_unsorted, animations);    
+    let arrays = prepArrays();
+    let animations = pancakeSort(arrays.ids);
+    animate(arrays.ids_unsorted, animations);    
 }
 
-function handleMergeSort()
-{
-    let items = document.getElementsByClassName("item");
-    let ids = getIds(items);
-    let ids_unsorted = [...ids];
-    let n = ids.length;
-    let animations = mergeSort(ids, n);
-
-    console.log(ids_unsorted);
-    console.log(ids);
-    console.log(animations);
-
-    animate(ids_unsorted, animations);  
-}
-
-function handleHeapSort()
-{
-    let items = document.getElementsByClassName("item");
-    let ids = getIds(items);
-    let ids_unsorted = [...ids];
-    let n = ids.length;
-    let animations = heapSort(ids);
-
-    console.log(ids_unsorted);
-    console.log(ids);
-    console.log(animations);
-
-    animate(ids_unsorted, animations);    
-}
-
-// function animate_by_arrays(arr)
+// function handleMergeSort()
 // {
-//     let count = 0;
-//     let id = setInterval(frame, 100);
+//     let items = document.getElementsByClassName("item");
+//     let ids = getIds(items);
+//     let ids_unsorted = [...ids];
+//     let n = ids.length;
+//     let animations = mergeSort(ids, n);
 
-//     function frame() {
-//         if (count < arr.length) 
-//         {
-//             generateItems(arr[count++]);
-//         }
-//         else
-//         {
-//             clearInterval(id);
-//         }
-//     }
+//     console.log(ids_unsorted);
+//     console.log(ids);
+//     console.log(animations);
+
+//     animate(ids_unsorted, animations);  
 // }
 
+/*
+Event handler function to heap sort the array
+*/
+function handleHeapSort()
+{
+    let arrays = prepArrays();
+    let n = arrays.ids.length;
+    let animations = heapSort(arrays.ids);
+    animate(arrays.ids_unsorted, animations);    
+}
+
+/*
+Handles the animation of the sorting
+Sorts the ids array based on the animations returned from the sorting functions.
+*/
 function animate(ids, animations) {
     let count = 0;
     let id = setInterval(frame, 5);
