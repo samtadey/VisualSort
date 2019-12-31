@@ -1,7 +1,7 @@
 # VisualSort
 
 VisualSort provides a visual representation of how sorting algorithms function. The 
-algorithms that were implemented are:
+algorithms that were implemented are:<br/>
     - Bubble Sort<br/>
     - Pancake Sort<br/>
     - Heap Sort<br/>
